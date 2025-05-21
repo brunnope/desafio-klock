@@ -1,35 +1,65 @@
 package com.klock.desafio.services.cliente;
 
 import com.klock.desafio.entities.Cliente;
+import com.klock.desafio.repositories.ClienteRepository;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClienteServiceImpl implements ClienteService{
 
+    @Autowired
+    private ClienteRepository clienteRepository;
+
     @Override
-    public Cliente buscarPorId(Long id) {
-        return null;
+    public Cliente buscarPorId(Long id) throws Exception {
+        Optional<Cliente> cliente = clienteRepository.findById(id);
+        return cliente.orElseThrow(() -> new Exception("id nao encontrado"));
     }
 
     @Override
     public List<Cliente> listarClientes() {
-        return List.of();
+        List<Cliente> clientes = clienteRepository.findAll();
+
+        return clientes.isEmpty() ? null : clientes;
     }
 
     @Override
     public Cliente salvarCliente(Cliente cliente) {
-        return null;
+        return clienteRepository.save(cliente);
     }
 
     @Override
-    public Cliente atualizarCliente(Long id, Cliente clienteAtualizado) {
-        return null;
+    public Cliente atualizarCliente(Long id, Cliente cliente) {
+        try {
+            Cliente clienteUpdate = clienteRepository.getReferenceById(id);
+            updateData(clienteUpdate, cliente);
+            return clienteRepository.save(clienteUpdate);
+        } catch (EntityNotFoundException e){
+            throw e;
+        }
     }
 
     @Override
-    public void excluirCliente(Long id) {
+    public void excluirCliente(Long id) throws Exception {
+        if (!clienteRepository.existsById(id)) {
+            throw new Exception("entidade nao encontrada");
+        }
+        try {
+            clienteRepository.deleteById(id);
+        } catch (DataIntegrityViolationException e){
+            throw e;
+        }
+    }
 
+    private void updateData(Cliente clienteUpdate, Cliente cliente) {
+        clienteUpdate.setNome(cliente.getNome());
+        clienteUpdate.setEmail(cliente.getEmail());
+        clienteUpdate.setVip(cliente.getVip());
     }
 }

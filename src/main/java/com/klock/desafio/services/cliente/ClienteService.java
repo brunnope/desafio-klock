@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ClienteService {
 
-    Cliente buscarPorId(Long id);
+    Cliente buscarPorId(Long id) throws Exception;
 
     List<Cliente> listarClientes();
 
@@ -15,6 +15,6 @@ public interface ClienteService {
 
     Cliente atualizarCliente(Long id, Cliente clienteAtualizado);
 
-    void excluirCliente(Long id);
+    void excluirCliente(Long id) throws Exception;
 
 }
