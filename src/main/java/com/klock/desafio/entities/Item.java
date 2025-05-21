@@ -1,4 +1,4 @@
-package entities;
+package com.klock.desafio.entities;
 
 import jakarta.persistence.*;
 
