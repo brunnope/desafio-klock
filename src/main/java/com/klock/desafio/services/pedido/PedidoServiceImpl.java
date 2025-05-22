@@ -1,5 +1,6 @@
 package com.klock.desafio.services.pedido;
 
+import com.klock.desafio.entities.Item;
 import com.klock.desafio.entities.Pedido;
 import com.klock.desafio.exceptions.BusinessRuleException;
 import com.klock.desafio.exceptions.DatabaseException;
@@ -40,21 +41,25 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public Pedido salvarPedido(Pedido pedido) {
+        prepararPedidoComItens(pedido);
         processarPedidoService.processarPedido(pedido);
         return pedidoRepository.save(pedido);
     }
+
 
     @Override
     public Pedido atualizarPedido(Long id, Pedido pedidoAtualizado) {
         try {
             Pedido pedidoExistente = pedidoRepository.getReferenceById(id);
             atualizarDados(pedidoExistente, pedidoAtualizado);
+            prepararPedidoComItens(pedidoExistente);
             processarPedidoService.processarPedido(pedidoExistente);
             return pedidoRepository.save(pedidoExistente);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException(id);
         }
     }
+
 
     @Override
     public void excluirPedido(Long id) {
@@ -68,13 +73,25 @@ public class PedidoServiceImpl implements PedidoService {
         }
     }
 
+    private void prepararPedidoComItens(Pedido pedido) {
+        if (pedido.getItens() != null) {
+            pedido.getItens().forEach(item -> item.setPedido(pedido));
+        }
+    }
+
+
+
     private void atualizarDados(Pedido pedidoExistente, Pedido pedidoAtualizado) {
         pedidoExistente.setTotal(pedidoAtualizado.getTotal());
         pedidoExistente.setTotalComDesconto(pedidoAtualizado.getTotalComDesconto());
         pedidoExistente.setEmEstoque(pedidoAtualizado.getEmEstoque());
         pedidoExistente.setDataEntrega(pedidoAtualizado.getDataEntrega());
         pedidoExistente.setCliente(pedidoAtualizado.getCliente());
+
         pedidoExistente.getItens().clear();
-        pedidoExistente.getItens().addAll(pedidoAtualizado.getItens());
+        for (Item item : pedidoAtualizado.getItens()) {
+            item.setPedido(pedidoExistente);
+            pedidoExistente.getItens().add(item);
+        }
     }
 }

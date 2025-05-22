@@ -55,10 +55,6 @@ public class PedidoValidator {
         if (pedido.getTotalComDesconto() == null || pedido.getTotalComDesconto().compareTo(BigDecimal.ZERO) < 0) {
             throw new BusinessRuleException("O total com desconto não pode ser negativo.");
         }
-
-        if (pedido.getTotalComDesconto().compareTo(pedido.getTotal()) > 0) {
-            throw new BusinessRuleException("O total com desconto não pode ser maior que o total original.");
-        }
     }
 
     private void validarDataEntrega(Pedido pedido) {

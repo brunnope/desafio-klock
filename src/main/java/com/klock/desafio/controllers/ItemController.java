@@ -28,6 +28,7 @@ public class ItemController {
         return ResponseEntity.ok().body(itemService.buscarItemPorId(id));
     }
 
+    //Implementado mesmo que não se salva item isolado e sim só através de pedido
     @PostMapping
     public ResponseEntity<Item> salvar(@RequestBody Item pedido){
         pedido = itemService.salvarItem(pedido);

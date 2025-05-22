@@ -7,6 +7,7 @@ import com.klock.desafio.exceptions.ResourceNotFoundException;
 import com.klock.desafio.repositories.ItemRepository;
 import com.klock.desafio.repositories.PedidoRepository;
 import com.klock.desafio.services.item.utils.ItemValidator;
+import com.klock.desafio.services.pedido.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class ItemServiceImpl implements ItemService {
     private ItemValidator itemValidator;
 
     @Autowired
-    private PedidoRepository pedidoRepository;
+    private PedidoService pedidoService;
 
     @Override
     public List<Item> listarItens() {
@@ -40,6 +41,7 @@ public class ItemServiceImpl implements ItemService {
         return item.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
+    //Implementado mesmo que não se salva item isolado e sim só através de pedido
     @Override
     public Item salvarItem(Item item) {
         if (item == null) {
@@ -69,7 +71,7 @@ public class ItemServiceImpl implements ItemService {
         pedido.getItens().remove(item);
         item.setPedido(null);
         //ao remover um item de um pedido, automaticamente esse item é apagado do banco
-        pedidoRepository.save(pedido);
+        pedidoService.salvarPedido(pedido);
     }
 
     private void atualizarDados(Item itemExistente, Item itemAtualizado){

@@ -1,5 +1,6 @@
 package com.klock.desafio.services.pedido.utils;
 
+import com.klock.desafio.entities.Item;
 import com.klock.desafio.entities.Pedido;
 import com.klock.desafio.exceptions.InsufficientStockException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,10 @@ public class ProcessarPedidoService {
         verificarEstoque(pedido);
         definirDataEntrega(pedido);
         pedidoValidator.validarPedido(pedido);
+        atualizarEstoque(pedido);
     }
+
+
 
     private void verificarEstoque(Pedido pedido){
         if (!estoqueService.verificarEstoque(pedido)){
@@ -41,6 +45,12 @@ public class ProcessarPedidoService {
             pedido.setDataEntrega(LocalDate.now().plusDays(DIAS_ENTREGA));
         } else {
             pedido.setDataEntrega(null);
+        }
+    }
+
+    private void atualizarEstoque(Pedido pedido) {
+        for (Item item : pedido.getItens()) {
+            item.setEstoque(item.getEstoque() - item.getQuantidade());
         }
     }
 
