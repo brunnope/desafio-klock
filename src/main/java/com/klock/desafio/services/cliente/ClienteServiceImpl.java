@@ -1,6 +1,7 @@
 package com.klock.desafio.services.cliente;
 
 import com.klock.desafio.entities.Cliente;
+import com.klock.desafio.exceptions.BusinessRuleException;
 import com.klock.desafio.exceptions.DatabaseException;
 import com.klock.desafio.exceptions.ResourceNotFoundException;
 import com.klock.desafio.repositories.ClienteRepository;
@@ -27,8 +28,10 @@ public class ClienteServiceImpl implements ClienteService{
     @Override
     public List<Cliente> listarClientes() {
         List<Cliente> clientes = clienteRepository.findAll();
-
-        return clientes.isEmpty() ? null : clientes;
+        if (clientes.isEmpty()) {
+            throw new BusinessRuleException("Nenhum cliente encontrado.");
+        }
+        return clientes;
     }
 
     @Override
@@ -40,7 +43,7 @@ public class ClienteServiceImpl implements ClienteService{
     public Cliente atualizarCliente(Long id, Cliente cliente) {
         try {
             Cliente clienteUpdate = clienteRepository.getReferenceById(id);
-            updateData(clienteUpdate, cliente);
+            atualizarDados(clienteUpdate, cliente);
             return clienteRepository.save(clienteUpdate);
         } catch (EntityNotFoundException e){
             throw new ResourceNotFoundException(id);
@@ -59,9 +62,9 @@ public class ClienteServiceImpl implements ClienteService{
         }
     }
 
-    private void updateData(Cliente clienteUpdate, Cliente cliente) {
+    private void atualizarDados(Cliente clienteUpdate, Cliente cliente) {
         clienteUpdate.setNome(cliente.getNome());
         clienteUpdate.setEmail(cliente.getEmail());
-        clienteUpdate.setVip(cliente.getVip());
+        clienteUpdate.setVip(cliente.isVip());
     }
 }

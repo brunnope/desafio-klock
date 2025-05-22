@@ -1,5 +1,6 @@
 package com.klock.desafio.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class Cliente implements Serializable {
     @Column(nullable = false)
     private Boolean vip = false;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pedido> pedidos = new ArrayList<>();
 
@@ -59,7 +61,7 @@ public class Cliente implements Serializable {
         this.email = email;
     }
 
-    public Boolean getVip() {
+    public Boolean isVip() {
         return vip;
     }
 
