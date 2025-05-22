@@ -1,5 +1,6 @@
 package com.klock.desafio.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -28,6 +29,7 @@ public class Item implements Serializable {
     @Column(nullable = false)
     private Integer estoque;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_pedido", nullable = false)
     private Pedido pedido;
