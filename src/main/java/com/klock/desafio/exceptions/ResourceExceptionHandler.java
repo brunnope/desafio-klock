@@ -32,4 +32,22 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(err);
 
     }
+    
+    @ExceptionHandler(BusinessRuleException.class)
+    public ResponseEntity<StandardError> businessRule(BusinessRuleException e, HttpServletRequest request) {
+        String error = "Violação de regra de negócio";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(status).body(err);
+    }
+    
+    @ExceptionHandler(InsufficientStockException.class)
+    public ResponseEntity<StandardError> insufficientStock(InsufficientStockException e, HttpServletRequest request) {
+        String error = "Estoque insuficiente";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(status).body(err);
+    }
 }
