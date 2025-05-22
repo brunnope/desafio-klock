@@ -19,7 +19,7 @@ public class TestConfig implements CommandLineRunner {
     public void run(String... args) throws Exception {
         Cliente cliente = new Cliente("cicero2", "cicero121@gmail.com");
 
-        clienteRepository.save(cliente);
+        //clienteRepository.save(cliente);
 
     }
 }

@@ -1,6 +1,8 @@
 package com.klock.desafio.services.cliente;
 
 import com.klock.desafio.entities.Cliente;
+import com.klock.desafio.exceptions.DatabaseException;
+import com.klock.desafio.exceptions.ResourceNotFoundException;
 import com.klock.desafio.repositories.ClienteRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,7 @@ public class ClienteServiceImpl implements ClienteService{
     @Override
     public Cliente buscarPorId(Long id) throws Exception {
         Optional<Cliente> cliente = clienteRepository.findById(id);
-        return cliente.orElseThrow(() -> new Exception("id nao encontrado"));
+        return cliente.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     @Override
@@ -41,19 +43,19 @@ public class ClienteServiceImpl implements ClienteService{
             updateData(clienteUpdate, cliente);
             return clienteRepository.save(clienteUpdate);
         } catch (EntityNotFoundException e){
-            throw e;
+            throw new ResourceNotFoundException(id);
         }
     }
 
     @Override
     public void excluirCliente(Long id) throws Exception {
         if (!clienteRepository.existsById(id)) {
-            throw new Exception("entidade nao encontrada");
+            throw new ResourceNotFoundException(id);
         }
         try {
             clienteRepository.deleteById(id);
         } catch (DataIntegrityViolationException e){
-            throw e;
+            throw new DatabaseException(e.getMessage());
         }
     }
 

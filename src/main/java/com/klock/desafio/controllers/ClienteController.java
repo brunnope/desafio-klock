@@ -23,13 +23,13 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cliente> findById(@PathVariable Long id){
+    public ResponseEntity<Cliente> buscarPorId(@PathVariable Long id) throws Exception {
 
         return ResponseEntity.ok().body(clienteService.buscarPorId(id));
     }
 
     @PostMapping
-    public ResponseEntity<Cliente> insert(@RequestBody Cliente cliente){
+    public ResponseEntity<Cliente> salvar(@RequestBody Cliente cliente){
         cliente = clienteService.salvarCliente(cliente);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(cliente.getId()).toUri();
@@ -37,13 +37,13 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
+    public ResponseEntity<Void> excluir(@PathVariable Long id) throws Exception {
         clienteService.excluirCliente(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cliente> update(@PathVariable Long id, @RequestBody Cliente cliente){
+    public ResponseEntity<Cliente> atualizar(@PathVariable Long id, @RequestBody Cliente cliente){
         cliente = clienteService.atualizarCliente(id, cliente);
         return ResponseEntity.ok().body(cliente);
     }
