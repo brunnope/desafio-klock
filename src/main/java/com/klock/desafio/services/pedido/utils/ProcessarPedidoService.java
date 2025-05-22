@@ -3,6 +3,9 @@ package com.klock.desafio.services.pedido.utils;
 import com.klock.desafio.entities.Item;
 import com.klock.desafio.entities.Pedido;
 import com.klock.desafio.exceptions.InsufficientStockException;
+import com.klock.desafio.exceptions.NotificacaoException;
+import com.klock.desafio.services.notificacao.Mensagem;
+import com.klock.desafio.services.notificacao.NotificacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +25,9 @@ public class ProcessarPedidoService {
     @Autowired
     private PedidoValidator pedidoValidator;
 
+    @Autowired
+    private NotificacaoService notificacaoService;
+
     public void processarPedido(Pedido pedido) {
         calculadoraPedidoService.calcularValorTotalPedido(pedido);
         calculadoraPedidoService.calcularValorTotalComDesconto(pedido);
@@ -29,9 +35,8 @@ public class ProcessarPedidoService {
         definirDataEntrega(pedido);
         pedidoValidator.validarPedido(pedido);
         atualizarEstoque(pedido);
+        enviarEmail(pedido);
     }
-
-
 
     private void verificarEstoque(Pedido pedido){
         if (!estoqueService.verificarEstoque(pedido)){
@@ -51,6 +56,19 @@ public class ProcessarPedidoService {
     private void atualizarEstoque(Pedido pedido) {
         for (Item item : pedido.getItens()) {
             item.setEstoque(item.getEstoque() - item.getQuantidade());
+        }
+    }
+
+    private void enviarEmail(Pedido pedido) {
+        String conteudo = "Pedido enviado! Seu pedido será entregue em breve.";
+
+        Mensagem mensagem = new Mensagem(pedido.getCliente().getEmail(), "Pedido enviado",
+                conteudo);
+
+        try {
+            notificacaoService.enviarEmail(mensagem);
+        }catch (Exception e){
+            throw new NotificacaoException();
         }
     }
 

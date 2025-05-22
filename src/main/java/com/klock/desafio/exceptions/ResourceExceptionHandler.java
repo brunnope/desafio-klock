@@ -50,4 +50,12 @@ public class ResourceExceptionHandler {
 
         return ResponseEntity.status(status).body(err);
     }
+
+    @ExceptionHandler(NotificacaoException.class)
+    public ResponseEntity<StandardError> notificacaoException(NotificacaoException e, HttpServletRequest request) {
+        String error = "Erro ao enviar notificação";
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
 }

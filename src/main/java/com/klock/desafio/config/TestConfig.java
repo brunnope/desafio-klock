@@ -5,6 +5,7 @@ import com.klock.desafio.entities.Item;
 import com.klock.desafio.entities.Pedido;
 import com.klock.desafio.services.cliente.ClienteService;
 import com.klock.desafio.services.item.ItemService;
+import com.klock.desafio.services.notificacao.NotificacaoService;
 import com.klock.desafio.services.pedido.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -26,11 +27,19 @@ public class TestConfig implements CommandLineRunner {
     @Autowired
     private ItemService itemService;
 
+    @Autowired
+    private NotificacaoService notificacaoService;
 
     @Override
     public void run(String... args) throws Exception {
+        /*
+        Mensagem mensagem = new Mensagem("cicero.brunno@academico.ifpb.edu.br", "TESTE",
+                "Testando...");
 
-        Cliente cliente = clienteService.buscarPorId(Long.valueOf(6));
+        notificacaoService.enviarEmail(mensagem);
+        */
+
+        Cliente cliente = clienteService.buscarPorId(Long.valueOf(1));
         cliente.setVip(false);
 
         // Criação de itens
