@@ -39,6 +39,7 @@ public class TestConfig implements CommandLineRunner {
         notificacaoService.enviarEmail(mensagem);
         */
 
+        /*
         Cliente cliente = clienteService.buscarPorId(Long.valueOf(1));
         cliente.setVip(false);
 
@@ -59,6 +60,6 @@ public class TestConfig implements CommandLineRunner {
         System.out.println("Itens do pedido:");
         pedido.getItens().forEach(item -> System.out.println("Item: " + item.getNome() + ", Quantidade: " + item.getQuantidade()));
 
-
+        */
     }
 }

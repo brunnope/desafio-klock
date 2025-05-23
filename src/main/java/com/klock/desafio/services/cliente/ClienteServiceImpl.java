@@ -51,7 +51,7 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
-    public void excluirCliente(Long id) throws Exception {
+    public void excluirCliente(Long id) {
         if (!clienteRepository.existsById(id)) {
             throw new ResourceNotFoundException(id);
         }
