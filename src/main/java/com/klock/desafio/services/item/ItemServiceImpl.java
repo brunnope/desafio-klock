@@ -5,7 +5,6 @@ import com.klock.desafio.entities.Pedido;
 import com.klock.desafio.exceptions.BusinessRuleException;
 import com.klock.desafio.exceptions.ResourceNotFoundException;
 import com.klock.desafio.repositories.ItemRepository;
-import com.klock.desafio.repositories.PedidoRepository;
 import com.klock.desafio.services.item.utils.ItemValidator;
 import com.klock.desafio.services.pedido.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
