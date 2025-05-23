@@ -16,7 +16,7 @@ Este projeto consiste em uma API RESTful desenvolvida em **Java com Spring Boot*
 ## 🎥 Demonstração em Vídeo
 
 👉 *Assista à explicação e execução do sistema no vídeo abaixo:*  
-📺 [🔗 Link para o vídeo (YouTube)](https://www.youtube.com/...)
+📺 [🔗 Link para o vídeo (YouTube)](https://youtu.be/tc9_roAXIsQ)
 
 ---
 
