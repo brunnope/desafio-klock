@@ -1,8 +1,5 @@
 package com.klock.desafio.config;
 
-import com.klock.desafio.entities.Cliente;
-import com.klock.desafio.entities.Item;
-import com.klock.desafio.entities.Pedido;
 import com.klock.desafio.services.cliente.ClienteService;
 import com.klock.desafio.services.item.ItemService;
 import com.klock.desafio.services.notificacao.NotificacaoService;
@@ -10,10 +7,6 @@ import com.klock.desafio.services.pedido.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
 
 @Component
 public class TestConfig implements CommandLineRunner {

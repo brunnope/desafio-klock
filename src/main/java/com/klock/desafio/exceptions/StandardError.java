@@ -1,19 +1,28 @@
 package com.klock.desafio.exceptions;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-import java.io.Serializable;
 import java.time.Instant;
 
-public class StandardError implements Serializable {
+@Schema(description = "Modelo de resposta para erros.")
+public class StandardError {
 
     private static final long serialVersionUID = 1L;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX", timezone = "America/Sao_Paulo")
     private Instant timestamp;
+
+    @Schema(description = "Código do status HTTP", example = "400")
     private Integer status;
+
+    @Schema(description = "Resumo do erro", example = "Recurso não encontrado")
     private String error;
+
+    @Schema(description = "Mensagem detalhada do erro", example = "ID do cliente não encontrado")
     private String message;
+
+    @Schema(description = "Caminho da requisição que gerou o erro", example = "/clientes/5")
     private String path;
 
     public StandardError() {}
