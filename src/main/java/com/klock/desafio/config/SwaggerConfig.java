@@ -12,10 +12,10 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Documentação da API - Desafio Klock")
+                        .title("Documentação da API - Desafio Klok")
                         .version("1.0.0")
                         .description("- \n" +
-                                "Esta API foi desenvolvida como solução para o desafio técnico Klock. " +
+                                "Esta API foi desenvolvida como solução para o desafio técnico Klok. " +
                                 "Ela fornece endpoints REST para gerenciamento de informações de clientes, " +
                                 "pedidos e itens. Permitindo, assim, operações como criação, busca, listagem, " +
                                 "atualização e exclusão." +

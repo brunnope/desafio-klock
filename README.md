@@ -1,4 +1,4 @@
-# Desafio Klock
+# Desafio Klok
 
 Este projeto consiste em uma API RESTful desenvolvida em **Java com Spring Boot**, que simula o fluxo completo de **processamento de pedidos**, incluindo:
 
